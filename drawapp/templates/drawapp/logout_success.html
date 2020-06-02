@@ -1,0 +1,5 @@
+<h2>You have successfully logged out!</h2>
+<form  action="{% url 'index' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Submit">
+</form>

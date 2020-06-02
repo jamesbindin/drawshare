@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from .forms import CreateProfileForm, LoginForm
 
@@ -42,3 +42,7 @@ def login_user(request):
     else:
         form = LoginForm()
     return render(request, 'drawapp/login.html', {'form':form, 'error_mess':error_mess})
+
+def logout_user(request):
+    logout(request)
+    return render(request, 'drawapp/logout_success.html')
