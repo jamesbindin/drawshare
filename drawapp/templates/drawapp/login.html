@@ -1,3 +1,6 @@
+
+{% extends 'base/base.html' %}
+{% block navbar %}
 <form method="post">
   {% csrf_token %}
   {{form.as_p}}
@@ -6,3 +9,4 @@
   {% endif %}
   <input type="submit" value="Login">
 </form>
+{% endblock %}
