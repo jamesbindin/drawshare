@@ -61,9 +61,19 @@ class GroupPostList(ListView):
         self.group = get_object_or_404(Group, pk=self.kwargs['pk'])
         return Post.objects.filter(group=self.group)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['group'] = self.group
+        return context
+
 class PostCommentList(ListView):
     model = Comment
 
     def get_queryset(self):
         self.post = get_object_or_404(Post, pk=self.kwargs['pk'])
         return Comment.objects.filter(post=self.post)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post'] = self.post
+        return context

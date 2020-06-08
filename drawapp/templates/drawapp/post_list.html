@@ -1,12 +1,22 @@
 {% extends 'base/base.html' %}
 {% block navbar %}
+<h1 class="page_header">Posts</h1>
+<hr>
+<h2>{{ group.name }}</h2>
+<p>{{ group.description }}</p>
+<p><strong>created by: </strong>{{ group.user.username }}</p>
+<hr>
 
 {% if object_list %}
-  <ul>
     {% for post in object_list %}
-      <li><a href="{% url 'comments' post.pk %}">{{ post }}</a></li>
+    <a href="{% url 'comments' post.pk %}"><h4>{{ post.title }}</h4></a>
+    <p>{{ post.content }}</p>
+    <p>
+      <strong>posted by: </strong>{{ post.user.username }} <br>
+      <strong>group: </strong>{{ post.group.name }} <br>
+      <strong>date_added: </strong>{{ post.date_added }}
+    </p>
     {% endfor %}
-  </ul>
 {% else %}
   <h2>No Posts in Group!</h2>
 {% endif %}

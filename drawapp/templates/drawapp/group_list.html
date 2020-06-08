@@ -1,12 +1,15 @@
 {% extends 'base/base.html' %}
 {% block navbar %}
-
+<h1 class="page_header">Groups</h1>
+<hr>
 {% if object_list %}
-  <ul>
     {% for group in object_list %}
-      <li><a href="{% url 'posts' group.pk %}">{{ group }}</a></li>
+    <div class="container">
+      <a href="{% url 'posts' group.pk %}"><h4>{{ group }}</h4></a>
+      <p>{{ group.description }}</p>
+      <p>created by: {{ group.user.username }}</p>
+    </div>
     {% endfor %}
-  </ul>
 {% else %}
   <h2>No Groups in List!</h2>
 {% endif %}

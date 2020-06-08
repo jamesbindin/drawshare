@@ -1,12 +1,26 @@
 {% extends 'base/base.html' %}
 {% block navbar %}
 
+<h1 class="page_header">Comments</h1>
+<hr>
+
+<h2>{{ post.title }}</h2>
+<p>{{ post.content }}</p>
+<p>
+<strong>posted by: </strong> {{ post.user.username }} <br>
+<strong>date posted: </strong> {{ post.date_added }} <br>
+<strong>group: </strong> {{ post.group.name }}
+</p>
+<hr>
+
 {% if object_list %}
-<ul>
   {% for comment in object_list %}
-    <li>{{ comment.content }}</li>
+    <p>{{ comment.content }}</p>
+    <p>
+      <strong>username: </strong>{{ comment.user.username }}<br>
+      <strong>date added: </strong>{{ comment.date_added }}<br>
+    </p>
   {% endfor %}
-</ul>
 {% else %}
 <h2>No Comments Yet!</h2>
 {% endif %}
