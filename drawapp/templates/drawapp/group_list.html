@@ -3,7 +3,7 @@
 
 <ul>
 {% for group in object_list %}
-  <li>{{ group }}</li>
+  <li><a href="{% url 'posts' group.pk %}">{{ group }}</a></li>
 {% endfor %}
 </ul>
 

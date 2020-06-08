@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from .models import Group, Post, Comment
@@ -51,3 +51,10 @@ def logout_user(request):
 
 class GroupsList(ListView):
     model = Group
+
+class GroupPostList(ListView):
+    model = Post
+
+    def get_queryset(self):
+        self.group = get_object_or_404(Group, pk=self.kwargs['pk'])
+        return Post.objects.filter(group=self.group)
