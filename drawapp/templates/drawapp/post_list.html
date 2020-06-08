@@ -1,8 +1,14 @@
 {% extends 'base/base.html' %}
 {% block navbar %}
-<ul>
-  {% for post in object_list %}
-    <li>{{ post }}</li>
-  {% endfor %}
-</ul>
+
+{% if object_list %}
+  <ul>
+    {% for post in object_list %}
+      <li><a href="{% url 'comments' post.pk %}">{{ post }}</a></li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <h2>No Posts in Group!</h2>
+{% endif %}
+
 {% endblock %}

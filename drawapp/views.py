@@ -49,8 +49,10 @@ def logout_user(request):
     logout(request)
     return render(request, 'drawapp/logout_success.html')
 
+
 class GroupsList(ListView):
     model = Group
+
 
 class GroupPostList(ListView):
     model = Post
@@ -58,3 +60,10 @@ class GroupPostList(ListView):
     def get_queryset(self):
         self.group = get_object_or_404(Group, pk=self.kwargs['pk'])
         return Post.objects.filter(group=self.group)
+
+class PostCommentList(ListView):
+    model = Comment
+
+    def get_queryset(self):
+        self.post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        return Comment.objects.filter(post=self.post)
