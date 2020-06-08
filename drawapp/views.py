@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from .models import Group, Post, Comment
-from .forms import CreateProfileForm, LoginForm
+from .forms import CreateProfileForm, LoginForm, NewPostForm, NewCommentForm
 from django.views.generic import ListView
 
 def index(request):
@@ -77,3 +77,33 @@ class PostCommentList(ListView):
         context = super().get_context_data(**kwargs)
         context['post'] = self.post
         return context
+
+def new_post_view(request, user_pk, group_pk):
+    if request.method == 'POST':
+        form = NewPostForm(request.POST)
+        if form.is_valid():
+                user = User.objects.filter(pk=user_pk)[0]
+                group = Group.objects.filter(pk=group_pk)[0]
+                title = form.cleaned_data['title']
+                content = form.cleaned_data['content']
+                Post.objects.create(user=user, group=group, title=title, content=content)
+                return redirect('index')
+    else:
+        form = NewPostForm()
+
+    return render(request, 'drawapp/new_post.html', {'form': form })
+
+
+def new_comment_view(request, user_pk, post_pk):
+    if request.method == 'POST':
+        form = NewCommentForm(request.POST)
+        if form.is_valid():
+                user = User.objects.filter(pk=user_pk)[0]
+                post = Post.objects.filter(pk=post_pk)[0]
+                content = form.cleaned_data['content']
+                Comment.objects.create(user=user, post=post, content=content)
+                return redirect('index')
+    else:
+        form = NewCommentForm()
+
+    return render(request, 'drawapp/new_comment.html', {'form': form })

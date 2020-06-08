@@ -10,4 +10,7 @@ urlpatterns = [
     path('groups/', views.GroupsList.as_view(), name='groups'),
     path('posts/<pk>/', views.GroupPostList.as_view(), name='posts'),
     path('comments/<pk>/', views.PostCommentList.as_view(), name='comments'),
+    path('newpost/<user_pk>/<group_pk>/', views.new_post_view, name='new_post'),
+    path('newcomment/<user_pk>/<post_pk>/', views.new_comment_view, name='new_comment'),
+
     ]
