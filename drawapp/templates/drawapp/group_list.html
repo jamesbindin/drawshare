@@ -1,0 +1,10 @@
+{% extends 'base/base.html' %}
+{% block navbar %}
+
+<ul>
+{% for group in object_list %}
+  <li>{{ group }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

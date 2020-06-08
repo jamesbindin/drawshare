@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from .models import Group, Post, Comment
 from .forms import CreateProfileForm, LoginForm
+from django.views.generic import ListView
 
 def index(request):
     return render(request, 'drawapp/index.html')
@@ -46,3 +48,6 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return render(request, 'drawapp/logout_success.html')
+
+class GroupsList(ListView):
+    model = Group
