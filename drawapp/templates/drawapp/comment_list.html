@@ -1,16 +1,22 @@
 {% extends 'base/base.html' %}
 {% block navbar %}
 
-<h1 class="page_header">Comments</h1>
-<hr>
 
 <h2>{{ post.title }}</h2>
+{% if post.image %}
+<div class="post_img_container">
+    <img class="img-fluid" src="{{ post.image.url }}" alt="IMAGE NOT FOUND">
+</div>
+{% endif %}
 <p>{{ post.content }}</p>
 <p>
 <strong>posted by: </strong> {{ post.user.username }} <br>
 <strong>date posted: </strong> {{ post.date_added }} <br>
 <strong>group: </strong> {{ post.group.name }}
 </p>
+
+<hr>
+<h1 class="page_header">Comments</h1>
 <hr>
 
 {% if object_list %}
@@ -20,8 +26,16 @@
       <strong>username: </strong>{{ comment.user.username }}<br>
       <strong>date added: </strong>{{ comment.date_added }}<br>
     </p>
+
+<hr>
   {% endfor %}
 {% else %}
 <h2>No Comments Yet!</h2>
+{% endif %}
+{% if user.is_authenticated %}
+<form action="{% url 'new_comment' user.pk post.pk %}" method="post">
+  {% csrf_token %}
+  <input type="submit" value="New Comment">
+</form>
 {% endif %}
 {% endblock %}

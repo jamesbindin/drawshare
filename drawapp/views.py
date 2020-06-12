@@ -66,6 +66,7 @@ class GroupPostList(ListView):
         context['group'] = self.group
         return context
 
+
 class PostCommentList(ListView):
     model = Comment
 
@@ -78,15 +79,17 @@ class PostCommentList(ListView):
         context['post'] = self.post
         return context
 
+
 def new_post_view(request, user_pk, group_pk):
     if request.method == 'POST':
-        form = NewPostForm(request.POST)
+        form = NewPostForm(request.POST, request.FILES)
         if form.is_valid():
                 user = User.objects.filter(pk=user_pk)[0]
                 group = Group.objects.filter(pk=group_pk)[0]
                 title = form.cleaned_data['title']
                 content = form.cleaned_data['content']
-                Post.objects.create(user=user, group=group, title=title, content=content)
+                image = form.cleaned_data['image']
+                Post.objects.create(user=user, group=group, title=title, image=image, content=content)
                 return redirect('index')
     else:
         form = NewPostForm()

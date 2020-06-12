@@ -10,15 +10,28 @@
 {% if object_list %}
     {% for post in object_list %}
     <a href="{% url 'comments' post.pk %}"><h4>{{ post.title }}</h4></a>
-    <p>{{ post.content }}</p>
-    <p>
-      <strong>posted by: </strong>{{ post.user.username }} <br>
-      <strong>group: </strong>{{ post.group.name }} <br>
-      <strong>date_added: </strong>{{ post.date_added }}
-    </p>
+    {% if post.image %}
+    <div class="thumb_img_container">
+      <img class="img-thumbnail" id="thumb_img" src="{{ post.image.url }}" alt="NOT FOUND">
+    </div>
+    {% endif %}
+    <div class="text_container">
+      <p>{{ post.content }}</p>
+      <p>
+        <strong>posted by: </strong>{{ post.user.username }} <br>
+        <strong>group: </strong>{{ post.group.name }} <br>
+        <strong>date_added: </strong>{{ post.date_added }}
+      </p>
+    </div>
     {% endfor %}
 {% else %}
   <h2>No Posts in Group!</h2>
+{% endif %}
+{% if user.is_authenticated %}
+  <form action="{% url 'new_post' user.pk group.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit"  value="New Post">
+  </form>
 {% endif %}
 
 {% endblock %}

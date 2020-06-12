@@ -20,7 +20,8 @@ class LoginForm(forms.Form):
 class NewPostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'image']
+
 
 
 class NewCommentForm(forms.ModelForm):
