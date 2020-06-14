@@ -3,16 +3,7 @@
   text-align:center;
 }
 
-.thumb_img_container{
-  width:200px;
-  height:200px;
-  }
-
 .thumb_img{
-  max-width:100%;
-  max-height:100%;
-}
-
-form{
-  display:inline-block;
+  height:80%;
+  width:80%;
 }

@@ -12,6 +12,7 @@ urlpatterns = [
     path('comments/<pk>/', views.PostCommentList.as_view(), name='comments'),
     path('newpost/<user_pk>/<group_pk>/', views.new_post_view, name='new_post'),
     path('newcomment/<user_pk>/<post_pk>/', views.new_comment_view, name='new_comment'),
+    path('newgroup/<user_pk>', views.new_group_view, name='new_group'),
     path('sketch/', views.sketch_view, name='sketch'),
 
     ]

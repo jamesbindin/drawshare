@@ -8,10 +8,21 @@
       <a href="{% url 'posts' group.pk %}"><h4>{{ group }}</h4></a>
       <p>{{ group.description }}</p>
       <p>created by: {{ group.user.username }}</p>
+      <hr>
     </div>
     {% endfor %}
 {% else %}
   <h2>No Groups in List!</h2>
+{% endif %}
+
+{% if user.is_authenticated %}
+  <form action="{% url 'new_group' user.pk %}" method="get">
+    {% csrf_token %}
+    <input class="btn btn-success" type="submit" value="New Group">
+  </form>
+{% else %}
+<hr>
+<h2>You need to be logged in to make a new Group!</h2>
 {% endif %}
 
 {% endblock %}

@@ -1,12 +1,9 @@
 {% extends 'base/base.html' %}
 {% block navbar %}
 
-
 <h1>{{ post.title }}</h1>
 {% if post.image %}
-<div class="post_img_container">
     <img class="img-fluid" src="{{ post.image.url }}" alt="IMAGE NOT FOUND">
-</div>
 {% endif %}
 <p>{{ post.content }}</p>
 <p>
@@ -33,7 +30,7 @@
 <h2>No Comments Yet!</h2>
 {% endif %}
 {% if user.is_authenticated %}
-<form action="{% url 'new_comment' user.pk post.pk %}" method="post">
+<form action="{% url 'new_comment' user.pk post.pk %}" method="get">
   {% csrf_token %}
   <input class="btn btn-success" type="submit" value="New Comment">
 </form>

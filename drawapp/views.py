@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from .models import Group, Post, Comment
-from .forms import CreateProfileForm, LoginForm, NewPostForm, NewCommentForm
+from .forms import CreateProfileForm, LoginForm, NewPostForm, NewCommentForm, NewGroupForm
 from django.views.generic import ListView
 
 def index(request):
@@ -90,7 +90,7 @@ def new_post_view(request, user_pk, group_pk):
                 content = form.cleaned_data['content']
                 image = form.cleaned_data['image']
                 Post.objects.create(user=user, group=group, title=title, image=image, content=content)
-                return redirect('index')
+                return redirect('posts', pk=group_pk)
     else:
         form = NewPostForm()
 
@@ -105,10 +105,25 @@ def new_comment_view(request, user_pk, post_pk):
                 post = Post.objects.filter(pk=post_pk)[0]
                 content = form.cleaned_data['content']
                 Comment.objects.create(user=user, post=post, content=content)
-                return redirect('index')
+                return redirect('comments', post_pk)
     else:
         form = NewCommentForm()
     return render(request, 'drawapp/new_comment.html', {'form': form })
+
+
+def new_group_view(request, user_pk):
+    if request.method == 'POST':
+        form = NewGroupForm(request.POST)
+        if form.is_valid():
+                user = User.objects.filter(pk=user_pk)[0]
+                name = form.cleaned_data['name']
+                description = form.cleaned_data['description']
+                Group.objects.create(user=user, name=name, description=description)
+                return redirect('groups')
+    else:
+        form = NewGroupForm()
+    return render(request, 'drawapp/new_group.html', {'form': form })
+
 
 def sketch_view(request):
     return render(request, 'drawapp/sketch.html')

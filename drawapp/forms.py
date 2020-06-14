@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Post, Comment
+from .models import Group, Post, Comment
 
 
 class CreateProfileForm(forms.ModelForm):
@@ -23,8 +23,13 @@ class NewPostForm(forms.ModelForm):
         fields = ['title', 'content', 'image']
 
 
-
 class NewCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+
+
+class NewGroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name', 'description']
