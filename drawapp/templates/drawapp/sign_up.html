@@ -1,12 +1,17 @@
 {% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
 {% block navbar %}
-<h1>Sign Up</h1>
+
+<h1 class="page_header">Create Account</h1>
+<hr>
 <form  method="post">
   {% csrf_token %}
-  {{ form.as_p }}
+    {{ form|crispy }}
   {% if pass_err is not None %}
     <p>{{ pass_err }}</p>
   {% endif %}
-  <input type="submit" value="Sign Up">
+
+  <input class="btn btn-success" type="submit" value="Sign Up">
+
 </form>
 {% endblock %}

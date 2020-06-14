@@ -2,7 +2,7 @@
 {% block navbar %}
 <h1 class="page_header">Posts</h1>
 <hr>
-<h2>{{ group.name }}</h2>
+<h1>{{ group.name }}</h1>
 <p>{{ group.description }}</p>
 <p><strong>created by: </strong>{{ group.user.username }}</p>
 <hr>
@@ -30,8 +30,11 @@
 {% if user.is_authenticated %}
   <form action="{% url 'new_post' user.pk group.pk %}" method="post">
     {% csrf_token %}
-    <input type="submit"  value="New Post">
+    <input class="btn btn-success" type="submit" value="New Post">
   </form>
+{% else %}
+<hr>
+<h2>You need to be logged in to make a new post!</h2>
 {% endif %}
 
 {% endblock %}

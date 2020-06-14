@@ -108,5 +108,7 @@ def new_comment_view(request, user_pk, post_pk):
                 return redirect('index')
     else:
         form = NewCommentForm()
-
     return render(request, 'drawapp/new_comment.html', {'form': form })
+
+def sketch_view(request):
+    return render(request, 'drawapp/sketch.html')

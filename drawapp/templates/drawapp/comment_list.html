@@ -2,7 +2,7 @@
 {% block navbar %}
 
 
-<h2>{{ post.title }}</h2>
+<h1>{{ post.title }}</h1>
 {% if post.image %}
 <div class="post_img_container">
     <img class="img-fluid" src="{{ post.image.url }}" alt="IMAGE NOT FOUND">
@@ -35,7 +35,10 @@
 {% if user.is_authenticated %}
 <form action="{% url 'new_comment' user.pk post.pk %}" method="post">
   {% csrf_token %}
-  <input type="submit" value="New Comment">
+  <input class="btn btn-success" type="submit" value="New Comment">
 </form>
+{% else %}
+<hr>
+<h2>You need to be logged to make a Comment</h2>
 {% endif %}
 {% endblock %}
