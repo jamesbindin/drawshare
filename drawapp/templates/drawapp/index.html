@@ -1,4 +1,7 @@
 {% extends 'base/base_jumbotron.html' %}
+{% load static %}
 {% block container_block %}
-<h1>Welcome to the Home Page!</h1>
+<h1 class="page_header">Welcome to the Home Page!</h1>
+<div id="p5_div"></div>
+<script type="text/javascript" src="{% static 'background.js' %}"></script>
 {% endblock %}

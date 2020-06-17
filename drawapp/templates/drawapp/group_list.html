@@ -21,8 +21,9 @@
     <input class="btn btn-success" type="submit" value="New Group">
   </form>
 {% else %}
-<hr>
-<h2>You need to be logged in to make a new Group!</h2>
+<div class="alert alert-dark" role="alert">
+  <h2>You need to be logged in to make a new Group!</h2>
+</div>
 {% endif %}
 
 {% endblock %}

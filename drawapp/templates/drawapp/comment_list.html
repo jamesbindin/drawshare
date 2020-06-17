@@ -35,7 +35,8 @@
   <input class="btn btn-success" type="submit" value="New Comment">
 </form>
 {% else %}
-<hr>
-<h2>You need to be logged to make a Comment</h2>
+<div class="alert alert-dark" role="alert">
+  <h2>You need to be logged to make a Comment</h2>
+</div>
 {% endif %}
 {% endblock %}
