@@ -1,6 +1,7 @@
 var bubbles = [];
 var count = 0;
-var obj_spawn_rate = 20;
+var obj_spawn_min = 100;
+var obj_spawn_rate = 200;
 var cursor_distance_limit = 80;
 
 function setup(){
@@ -10,7 +11,7 @@ function setup(){
   stroke("#50505030")
   strokeWeight(2)
   angleMode(RADIANS)
-  for (var i = 0; i < 500; i++) {
+  for (var i = 0; i < 100; i++) {
     let r = random(10, 20)
     let b = new Bubble(random(windowWidth), random(windowHeight), r, cursor_distance_limit)
     bubbles.push(b)
@@ -23,12 +24,12 @@ function draw(){
       bubbles[i].show()
       bubbles[i].checkCursor(mouseX, mouseY)
     }
-  if(count % floor(random(obj_spawn_rate)) == 0){
+  if(count % floor(random(obj_spawn_min, obj_spawn_rate)) == 0){
     let r = random(10, 20)
     let b = new Bubble(random(windowWidth), random(windowHeight), r, cursor_distance_limit)
     bubbles.push(b)
   }
-  if(count % floor(random(obj_spawn_rate)) == 0){
+  if(count % floor(random(obj_spawn_min, obj_spawn_rate)) == 0){
     bubbles.shift()
   }
   count += 1
