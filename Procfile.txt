@@ -1,1 +1,1 @@
-web: gunicorn drawshare.wsgi
+web: python manage.py runserver 
