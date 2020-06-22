@@ -1,98 +1,126 @@
-var bubbles = [];
-var count = 0;
-var obj_spawn_min = 100;
-var obj_spawn_rate = 200;
-var cursor_distance_limit = 80;
-
 function setup(){
-  var c = createCanvas(windowWidth, windowHeight)
-  c.parent('p5_div')
+  var canvas = createCanvas(windowWidth, windowHeight)
+  canvas.parent('p5_div')
   fill("#50505010")
   stroke("#50505030")
   strokeWeight(2)
   angleMode(RADIANS)
-  for (var i = 0; i < 100; i++) {
-    let r = random(10, 20)
-    let b = new Bubble(random(windowWidth), random(windowHeight), r, cursor_distance_limit)
-    bubbles.push(b)
-  }
+
+  bubbleSwarm = new BubbleSwarm(1000, 20, 50, canvas, 0.05, mouseX, mouseY, 200)
+  bubbleSwarm.initilize()
 }
 
 function draw(){
   background(255)
-  for (var i = 0; i < bubbles.length; i++) {
-      bubbles[i].show()
-      bubbles[i].checkCursor(mouseX, mouseY)
-    }
-  if(count % floor(random(obj_spawn_min, obj_spawn_rate)) == 0){
-    let r = random(10, 20)
-    let b = new Bubble(random(windowWidth), random(windowHeight), r, cursor_distance_limit)
-    bubbles.push(b)
-  }
-  if(count % floor(random(obj_spawn_min, obj_spawn_rate)) == 0){
-    bubbles.shift()
-  }
-  count += 1
+  bubbleSwarm.updateCursor(mouseX, mouseY)
+  bubbleSwarm.checkCursor()
+  bubbleSwarm.show()
+  bubbleSwarm.move()
 }
+
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    bubbleSwarm.clear()
+    bubbleSwarm.initilize()
   }
 
 // ----------------------------------------------------------------------------
+class BubbleSwarm{
+  constructor(n, rMin, rMax, canvas, velScaleMax, mouseX, mouseY, max_cur_dist){
+    this.bubbles = [];
+    this.n = n;
+    this.rMin = rMin;
+    this.rMax = rMax;
+    this.velScaleMax = velScaleMax;
+    this.canvas = canvas;
+    this.pMouseX;
+    this.pMouseY;
+    this.mouseX = mouseX;
+    this.mouseY = mouseY;
+    this.max_cur_dist = max_cur_dist;
+    this.cursorHasMoved = false;
+  }
+
+  initilize(){
+    for (var i = 0; i < this.n; i++) {
+        var x = random(this.canvas.width)
+        var y = random(this.canvas.height)
+        var r = random(this.rMin, this.rMax)
+        // var vScale = random(0.05, this.velScaleMax)
+        var vScale = this.velScaleMax
+        var b = new Bubble(x, y, r, vScale)
+        this.bubbles.push(b)
+      }
+  }
+
+  show(){
+    this.bubbles.forEach((b) => {
+      b.show()
+    })
+  }
+
+  updateCursor(mouseX, mouseY){
+    console.log(this.cursorHasMoved);
+    this.pMouseX = this.mouseX
+    this.pMouseY = this.mouseY
+    this.mouseX = mouseX;
+    this.mouseY = mouseY;
+    if(this.pMouseX == this.mouseX && this.pMouseY == this.mouseY){
+        this.cursorHasMoved = false
+        return;
+    }
+    this.cursorHasMoved = true
+  }
+
+  checkCursor(){
+    this.bubbles.forEach((b) => {
+      var  d =  int(dist(b.x, b.y, this.mouseX, this.mouseY))
+      if(d < this.max_cur_dist && this.cursorHasMoved){
+        var dirArc = atan2(b.y-this.mouseY, b.x-this.mouseX) + TWO_PI
+        b.nextPos_x = b.x + (cos(dirArc) * 100)
+        b.nextPos_y = b.y + (sin(dirArc) * 100)
+      }
+      else{
+        b.nextPos_x = b.startX
+        b.nextPos_y = b.startY
+      }
+    })
+  }
+
+  move(){
+    this.bubbles.forEach((b) => {
+      b.move()
+    })
+  }
+
+  clear(){
+    this.bubbles = []
+  }
+
+
+
+
+}
 // ----------------------------------------------------------------------------
 class Bubble{
-  constructor(x, y, r, dist_tolerance){
-    this.dist_tolerance = dist_tolerance;
+  constructor(x, y, r, vScale){
     this.x = x;
     this.y = y;
+    this.startX = x;
+    this.startY = y;
     this.r = r;
-    this.last_pos_x = this.x;
-    this.last_pos_y = this.y;
-    this.state = '';
+    this.vScale = vScale;
+    this.nextPos_x = x;
+    this.nextPos_y = y;
   }
 
   show(){
     ellipse(this.x, this.y, this.r*2)
   }
 
-  checkCursor(mouse_x, mouse_y){
-    var x_dist = this.x - mouse_x
-    var y_dist = this.y - mouse_y
-    var x_cur_in_range = abs(x_dist)  < this.dist_tolerance
-    var y_cur_in_range = abs(y_dist)  < this.dist_tolerance
-
-    if(x_cur_in_range && y_cur_in_range){
-      this.state = "move_away"
-    }
-    else{
-      this.state = 'move_back'
-      if (this.state != "move_back") {
-        this.last_pos_x = this.x
-        this.last_pos_y = this.y
-      }
-    }
-
-    if(this.state == 'move_away'){
-      var arc = atan2(x_dist, y_dist) + PI
-      var direction_arc = arc + PI
-      var hyp = 0.1
-      var adj = cos(direction_arc) * hyp
-      var opp = sin(direction_arc) * hyp
-
-      if(!isNaN(adj) || !isNaN(opp)){
-        this.x += opp * (this.dist_tolerance - abs(x_dist))
-        this.y += adj * (this.dist_tolerance - abs(y_dist))
-      }
-    }
-
-    if(this.state == 'move_back'){
-      var arc = atan2(this.x - this.last_pos_x, this.y - this.last_pos_y) + PI
-      var hyp = 0.4
-      var adj = cos(arc) * hyp
-      var opp = sin(arc) * hyp
-      this.x += opp
-      this.y += adj
-    }
+  move(){
+    this.x += (this.nextPos_x - this.x) * this.vScale
+    this.y += (this.nextPos_y - this.y) * this.vScale
   }
 }
