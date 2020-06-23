@@ -3,22 +3,17 @@ var isMobile = false;
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
   isMobile = true
   }
-
- $(window).on("deviceorientation", function( event ) {
-		if (window.matchMedia("(orientation: portrait)").matches) {
-      alert("PORTRATE");
-		}
-		if (window.matchMedia("(orientation: landscape)").matches) {
-      alert("LANDSCAPE");
-		}
-	});
-
+$( window ).on( "orientationchange", function( event ) {
+  alert(event.orientation);
+});
 function setup() {
   var c;
   if(isMobile){
     c = createCanvas(windowHeight, windowWidth)
+
     c.hide()
-  }else{
+  }
+  else{
     c = createCanvas(640, 480);
   }
   c.parent("canvas_container")
@@ -28,10 +23,10 @@ function setup() {
 }
 
 function draw(){
-  if(mouseIsPressed){
-    line(pmouseX, pmouseY, mouseX, mouseY)
+    if(mouseIsPressed){
+      line(pmouseX, pmouseY, mouseX, mouseY)
+    }
   }
-}
 
 var background_cp = new iro.ColorPicker('#background_cp', {width:150})
 var stroke_cp = new iro.ColorPicker('#stroke_cp', {width:150})
