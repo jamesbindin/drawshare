@@ -1,6 +1,26 @@
 
+var isMobile = false;
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+  isMobile = true
+  }
+
+ $(window).on("deviceorientation", function( event ) {
+		if (window.matchMedia("(orientation: portrait)").matches) {
+      console.log("PORTRATE");
+		}
+		if (window.matchMedia("(orientation: landscape)").matches) {
+      console.log("LANDSCAPE");
+		}
+	});
+
 function setup() {
-  var c = createCanvas(640, 480);
+  var c;
+  if(isMobile){
+    c = createCanvas(windowHeight, windowWidth)
+    c.hide()
+  }else{
+    c = createCanvas(640, 480);
+  }
   c.parent("canvas_container")
   background("#222222")
   stroke("#FFFFFF")
