@@ -6,10 +6,10 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
  $(window).on("deviceorientation", function( event ) {
 		if (window.matchMedia("(orientation: portrait)").matches) {
-      console.log("PORTRATE");
+      alert("PORTRATE");
 		}
 		if (window.matchMedia("(orientation: landscape)").matches) {
-      console.log("LANDSCAPE");
+      alert("LANDSCAPE");
 		}
 	});
 
