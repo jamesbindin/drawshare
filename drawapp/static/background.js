@@ -43,7 +43,8 @@ window.addEventListener("orientationchange", function() {
     else if(window.orientation == 0){
       resizeCanvas(height, width)
     }
-}, false);
+    return false;
+});
 
 $("#p5_div").bind('touchend', (e)=>{
   mouseX = null

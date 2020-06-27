@@ -13,10 +13,10 @@ function setup() {
   newCanvas()
 }
 
-// draw function for p5.js runs as often as screen refreshes
-function draw(){
+// create new canvas if screen is resized
+function windowResized(){
+  newCanvas()
 }
-
 
 // make a new canvas with values from the controls
 function newCanvas(){
@@ -31,7 +31,6 @@ function newCanvas(){
 // draw line where touched or clicked
 function touchMoved(){
   line(pmouseX, pmouseY, mouseX, mouseY)
-  return false
 }
 // if touch was started on canvas, dont allow scrolling
 $(window).scroll((e) => {
