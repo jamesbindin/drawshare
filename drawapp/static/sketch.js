@@ -2,6 +2,7 @@ var canvas;
 var onCanvas;
 var previousScrollTop = 0;
 var scrollLock = false;
+var val = 12;
 
 // define colour pickers
 var background_cp = new iro.ColorPicker('#background_cp', {width:150, color:"#22222f"})
@@ -24,6 +25,7 @@ function newCanvas(){
   canvas.parent("canvas_container")
   background(background_cp.color.hexString)
   stroke(stroke_cp.color.hexString)
+  strokeWeight(val)
 }
 
 // draw line where touched or clicked
@@ -74,7 +76,8 @@ $('#btn_stroke_weight').on('click', ()=>{
 })
 // change stroke weight and display value
 $('#stroke_weight_range').on('input',()=>{
-  var val = $('#stroke_weight_range').val()
+  val = $('#stroke_weight_range').val()
+  console.log(val);
   strokeWeight(val)
   $('#stroke_weight_label').html(val+" px")
 })
@@ -85,11 +88,11 @@ $('#download_btn').on('click', ()=>{
 })
 // download sketch
 $('#download_btn_submit').on('click', ()=>{
-  var val = $("#download_input").val()
-  if(val == ''){
+  var input = $("#download_input").val()
+  if(input == ''){
       save()
   }
   else{
-    save(val)
+    save(input)
   }
 })

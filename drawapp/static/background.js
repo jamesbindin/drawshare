@@ -6,7 +6,7 @@ function setup(){
   canvas = createCanvas(windowWidth, windowHeight)
 
   // scale ammount of bubbles according to screen size
-  var bubbleCount = windowWidth*windowHeight*0.000042
+  var bubbleCount = windowWidth*windowHeight*0.000050
   canvas.parent('p5_div')
   strokeWeight(2)
 
@@ -45,7 +45,7 @@ window.addEventListener("orientationchange", function() {
     }
 }, false);
 
-$(window).bind('touchend', (e)=>{
+$("#p5_div").bind('touchend', (e)=>{
   mouseX = null
   mouseY = null
   return false
