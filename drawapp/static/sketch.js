@@ -13,10 +13,10 @@ function setup() {
   newCanvas()
 }
 
-// create new canvas if screen is resized
-function windowResized(){
+// create new canvas if orientation changed on mobile
+window.addEventListener("orientationchange", function() {
   newCanvas()
-}
+});
 
 // make a new canvas with values from the controls
 function newCanvas(){

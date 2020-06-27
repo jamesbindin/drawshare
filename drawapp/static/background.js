@@ -46,10 +46,18 @@ window.addEventListener("orientationchange", function() {
     return false;
 });
 
+$("#p5_div").bind('touchstart', (e)=>{
+  e.preventDefault()
+})
+
+$("#p5_div").bind('touchmove', (e)=>{
+  e.preventDefault()
+})
+
 $("#p5_div").bind('touchend', (e)=>{
+  e.preventDefault()
   mouseX = null
   mouseY = null
-  return false
 })
 
 //-----------------------------------------------------------------------------
