@@ -88,8 +88,7 @@ def new_post_view(request, user_pk, group_pk):
                 group = Group.objects.filter(pk=group_pk)[0]
                 title = form.cleaned_data['title']
                 content = form.cleaned_data['content']
-                image = form.cleaned_data['image']
-                Post.objects.create(user=user, group=group, title=title, image=image, content=content)
+                Post.objects.create(user=user, group=group, title=title, content=content)
                 return redirect('posts', pk=group_pk)
     else:
         form = NewPostForm()

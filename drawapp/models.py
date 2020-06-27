@@ -15,7 +15,6 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images', null=True, blank=True)
     content = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
 
