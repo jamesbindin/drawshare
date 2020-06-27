@@ -1,6 +1,8 @@
 
 from django.urls import path, include
 from drawapp import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -14,5 +16,4 @@ urlpatterns = [
     path('newcomment/<user_pk>/<post_pk>/', views.new_comment_view, name='new_comment'),
     path('newgroup/<user_pk>', views.new_group_view, name='new_group'),
     path('sketch/', views.sketch_view, name='sketch'),
-
-    ]
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
