@@ -1,15 +1,18 @@
+var canvas;
+
 function setup(){
-  var canvas = createCanvas(windowWidth, windowHeight)
+  pixelDensity(1)
+  canvas = createCanvas(windowWidth, windowHeight)
   var bubbleCount = windowWidth*windowHeight*0.00003
   canvas.parent('p5_div')
   strokeWeight(2)
 
   bubbleSwarm = new BubbleSwarm(bubbleCount, 20, 30, canvas)
-  bubbleSwarm.initilize()
+  bubbleSwarm.initilize(canvas)
   bubbleSwarm2 = new BubbleSwarm(bubbleCount, 20, 50, canvas)
-  bubbleSwarm2.initilize()
+  bubbleSwarm2.initilize(canvas)
   bubbleSwarm3 = new BubbleSwarm(bubbleCount, 30, 80, canvas)
-  bubbleSwarm3.initilize()
+  bubbleSwarm3.initilize(canvas)
 }
 
 function draw(){
@@ -20,11 +23,24 @@ function draw(){
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    var w = windowWidth
+    var h = windowHeight
+    resizeCanvas(w, h)
     bubbleSwarm.initilize()
     bubbleSwarm2.initilize()
     bubbleSwarm3.initilize()
   }
+
+// Listen for orientation changes reverse dimentions of canvas when rotated
+window.addEventListener("orientationchange", function() {
+    if (window.orientation == 90) {
+      resizeCanvas(height, width)
+    }
+    else if(window.orientation == 0){
+      resizeCanvas(height, width)
+    }
+}, false);
+
   function mouseReleased() {
     mouseX = null
     mouseY = null
@@ -50,7 +66,7 @@ class BubbleSwarm{
       }
   }
 
-  update(mouseX,  mouseY, stroke, fill){
+  update(mouseX, mouseY, stroke, fill){
     this.canvas.stroke(stroke)
     this.canvas.fill(fill)
 
@@ -85,8 +101,12 @@ class Bubble{
     var speedScale = 1/this.r
       if(d < curDistTollerance){
         var dirArc = atan2(this.y-mouseY, this.x-mouseX) + TWO_PI
-        this.x += (((cos(dirArc)  * curDistTollerance) + this.x) - this.x) * speedScale
-        this.y += (((sin(dirArc)  * curDistTollerance) + this.y) - this.y) * speedScale
+        var nX = this.x + (((cos(dirArc)  * curDistTollerance) + this.x) - this.x) * speedScale
+        var nY = this.y + (((sin(dirArc)  * curDistTollerance) + this.y) - this.y) * speedScale
+        if(nX > 0 && nX < width && nY > 0 && nY < height){
+          this.x = nX
+          this.y = nY
+        }
       }
       else{
         var px = this.x

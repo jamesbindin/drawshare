@@ -1,10 +1,7 @@
-
 var canvas;
-var isMobile = false;
-var orentation = window.screen.orientation.type
-var lastScrollTop = 0;
+var onCanvas;
 
-
+// define colour pickers
 var background_cp = new iro.ColorPicker('#background_cp', {width:150, color:"#22222f"})
 var stroke_cp = new iro.ColorPicker('#stroke_cp', {width:150, color:"#FFFFFF"})
 
@@ -15,11 +12,13 @@ function setup() {
 
 // draw function for p5.js runs as often as screen refreshes
 function draw(){
-    if(mouseIsPressed){
-      line(pmouseX, pmouseY, mouseX, mouseY)
-    }
-  }
+}
 
+function touchMoved() {
+  line(pmouseX, pmouseY, mouseX, mouseY)
+  return false;
+}
+// make a new canvas with values from the controls
 function newCanvas(){
   var w = $("#canvas_container").width()
   canvas = createCanvas(w, w/2)
@@ -27,15 +26,6 @@ function newCanvas(){
   background(background_cp.color.hexString)
   stroke(stroke_cp.color.hexString)
 }
-
-// event listeners to disable scrolling with touch, only when using the canvas.
-$("#canvas_container").on("touchstart",() => {
-  $("body").css('overflow', 'hidden')
-})
-$("#canvas_container").on("touchend",() => {
-  $("body").css('overflow', 'visible')
-})
-
 
 // expand background colour selector
 $('#btn_background_cp').on('click', ()=>{
