@@ -1,5 +1,7 @@
 var canvas;
 var onCanvas;
+var previousScrollTop = 0;
+var scrollLock = false;
 
 // define colour pickers
 var background_cp = new iro.ColorPicker('#background_cp', {width:150, color:"#22222f"})
@@ -14,10 +16,7 @@ function setup() {
 function draw(){
 }
 
-function touchMoved() {
-  line(pmouseX, pmouseY, mouseX, mouseY)
-  return false;
-}
+
 // make a new canvas with values from the controls
 function newCanvas(){
   var w = $("#canvas_container").width()
@@ -26,6 +25,29 @@ function newCanvas(){
   background(background_cp.color.hexString)
   stroke(stroke_cp.color.hexString)
 }
+
+// draw line where touched or clicked
+function touchMoved(){
+  line(pmouseX, pmouseY, mouseX, mouseY)
+  return false
+}
+// if touch was started on canvas, dont allow scrolling
+$(window).scroll((e) => {
+    if(scrollLock) {
+        $(window).scrollTop(previousScrollTop);
+    }
+    previousScrollTop = $(window).scrollTop();
+});
+
+// check if touch was started in canvas, if so set scrollLock varable to true
+// set to false when touch ends.
+$('#canvas_container').bind('touchstart', function(){
+  scrollLock = true
+  // return false
+}).bind('touchend', function(){
+  scrollLock = false
+  return false
+})
 
 // expand background colour selector
 $('#btn_background_cp').on('click', ()=>{
@@ -67,7 +89,7 @@ $('#download_btn_submit').on('click', ()=>{
   if(val == ''){
       save()
   }
-  else {
+  else{
     save(val)
   }
 })

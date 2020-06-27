@@ -27,6 +27,3 @@ body{
   left:0;
   z-index: -9;
 }
-#canvas_container{
-  touch-action:none;
-}
