@@ -2,7 +2,6 @@ var canvas;
 
 // p5.js setup function, is called when page is ready, only once.
 function setup(){
-  pixelDensity(1)
   canvas = createCanvas(windowWidth, windowHeight)
 
   // scale ammount of bubbles according to screen size
@@ -35,26 +34,13 @@ function windowResized() {
     bubbleSwarm3.initilize()
   }
 
-// Listen for orientation changes reverse dimentions of canvas when rotated
-window.addEventListener("orientationchange", function() {
-    if (window.orientation == 90) {
-      resizeCanvas(height, width)
-    }
-    else if(window.orientation == 0){
-      resizeCanvas(height, width)
-    }
-    return false;
-});
-
+// prevent page refresh when using touch controls, sets cursor to null when
+// touch has finished to ensure bubbles move back to start place
 $("#p5_div").bind('touchstart', (e)=>{
   e.preventDefault()
-})
-
-$("#p5_div").bind('touchmove', (e)=>{
+}).bind('touchmove', (e)=>{
   e.preventDefault()
-})
-
-$("#p5_div").bind('touchend', (e)=>{
+}).bind('touchend', (e)=>{
   e.preventDefault()
   mouseX = null
   mouseY = null

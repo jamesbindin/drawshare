@@ -1,5 +1,4 @@
 var canvas;
-var onCanvas;
 var previousScrollTop = 0;
 var scrollLock = false;
 var val = 12;
@@ -13,42 +12,25 @@ function setup() {
   newCanvas()
 }
 
-// create new canvas if orientation changed on mobile
-window.addEventListener("orientationchange", function() {
-  newCanvas()
-});
-
 // make a new canvas with values from the controls
 function newCanvas(){
+  canvas = createCanvas(windowWidth, windowHeight)
+
   var w = $("#canvas_container").width()
   canvas = createCanvas(w, w/2)
   canvas.parent("canvas_container")
+  $(".p5Canvas").css("touch-action", "none")
   background(background_cp.color.hexString)
   stroke(stroke_cp.color.hexString)
   strokeWeight(val)
 }
 
-// draw line where touched or clicked
+// // draw line where touched or clicked
 function touchMoved(){
   line(pmouseX, pmouseY, mouseX, mouseY)
-}
-// if touch was started on canvas, dont allow scrolling
-$(window).scroll((e) => {
-    if(scrollLock) {
-        $(window).scrollTop(previousScrollTop);
-    }
-    previousScrollTop = $(window).scrollTop();
-});
-
-// check if touch was started in canvas, if so set scrollLock varable to true
-// set to false when touch ends.
-$('#canvas_container').bind('touchstart', function(){
-  scrollLock = true
   // return false
-}).bind('touchend', function(){
-  scrollLock = false
-  return false
-})
+
+}
 
 // expand background colour selector
 $('#btn_background_cp').on('click', ()=>{
